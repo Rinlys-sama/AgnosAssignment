@@ -1,7 +1,6 @@
 package services
 
 import (
-	"errors"
 	"time"
 
 	"github.com/Rinlys-sama/AgnosAssignment/config"
@@ -23,17 +22,17 @@ func NewStaffService(repo *repository.StaffRepository, cfg *config.Config) *Staf
 func (s *StaffService) CreateStaff(req models.StaffCreateRequest) (*models.StaffCreateResponse, error) {
 	hospitalID, err := s.repo.GetHospitalByCode(req.Hospital)
 	if err != nil {
-		return nil, errors.New("hospital not found")
+		return nil, ErrHospitalNotFound
 	}
 
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return nil, errors.New("failed to hash password")
+		return nil, ErrHashFailed
 	}
 
 	staff, err := s.repo.CreateStaff(req.Username, string(hashedPassword), hospitalID)
 	if err != nil {
-		return nil, errors.New("username already exists")
+		return nil, ErrUsernameExists
 	}
 
 	return &models.StaffCreateResponse{
@@ -46,16 +45,16 @@ func (s *StaffService) CreateStaff(req models.StaffCreateRequest) (*models.Staff
 func (s *StaffService) Login(req models.StaffLoginRequest) (*models.LoginResponse, error) {
 	hospitalID, err := s.repo.GetHospitalByCode(req.Hospital)
 	if err != nil {
-		return nil, errors.New("invalid credentials")
+		return nil, ErrInvalidCreds
 	}
 
 	staff, err := s.repo.GetStaffByUsernameAndHospital(req.Username, hospitalID)
 	if err != nil {
-		return nil, errors.New("invalid credentials")
+		return nil, ErrInvalidCreds
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(staff.PasswordHash), []byte(req.Password)); err != nil {
-		return nil, errors.New("invalid credentials")
+		return nil, ErrInvalidCreds
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -67,7 +66,7 @@ func (s *StaffService) Login(req models.StaffLoginRequest) (*models.LoginRespons
 
 	tokenString, err := token.SignedString([]byte(s.cfg.JWTSecret))
 	if err != nil {
-		return nil, errors.New("failed to generate token")
+		return nil, ErrTokenFailed
 	}
 
 	return &models.LoginResponse{Token: tokenString}, nil

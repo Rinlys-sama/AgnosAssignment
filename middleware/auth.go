@@ -45,9 +45,31 @@ func AuthMiddleware(jwtSecret string) gin.HandlerFunc {
 			return
 		}
 
-		c.Set("staff_id", int(claims["staff_id"].(float64)))
-		c.Set("hospital_id", int(claims["hospital_id"].(float64)))
-		c.Set("username", claims["username"].(string))
+		// Safe type assertions with fallback
+		staffID, ok := claims["staff_id"].(float64)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token claims"})
+			c.Abort()
+			return
+		}
+
+		hospitalID, ok := claims["hospital_id"].(float64)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token claims"})
+			c.Abort()
+			return
+		}
+
+		username, ok := claims["username"].(string)
+		if !ok {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "invalid token claims"})
+			c.Abort()
+			return
+		}
+
+		c.Set("staff_id", int(staffID))
+		c.Set("hospital_id", int(hospitalID))
+		c.Set("username", username)
 
 		c.Next()
 	}

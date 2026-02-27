@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/Rinlys-sama/AgnosAssignment/models"
@@ -27,13 +28,14 @@ func (h *StaffHandler) CreateStaff(c *gin.Context) {
 
 	resp, err := h.service.CreateStaff(req)
 	if err != nil {
-		status := http.StatusInternalServerError
-		if err.Error() == "hospital not found" {
-			status = http.StatusBadRequest
-		} else if err.Error() == "username already exists" {
-			status = http.StatusConflict
+		switch {
+		case errors.Is(err, services.ErrHospitalNotFound):
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		case errors.Is(err, services.ErrUsernameExists):
+			c.JSON(http.StatusConflict, gin.H{"error": err.Error()})
+		default:
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "internal server error"})
 		}
-		c.JSON(status, gin.H{"error": err.Error()})
 		return
 	}
 

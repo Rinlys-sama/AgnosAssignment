@@ -1,25 +1,51 @@
 package main
 
 import (
+	"context"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/Rinlys-sama/AgnosAssignment/config"
 	"github.com/Rinlys-sama/AgnosAssignment/routes"
 )
 
 func main() {
-	// Step 1: Load configuration from environment variables
 	cfg := config.LoadConfig()
 
-	// Step 2: Connect to PostgreSQL
 	db := config.ConnectDB(cfg)
-	defer db.Close() // Close the DB connection when the app shuts down
+	defer db.Close()
 
-	// Step 3: Set up routes and start the server
 	router := routes.SetupRouter(db, cfg)
 
-	log.Println("Starting server on :8080")
-	if err := router.Run(":8080"); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+	// shutdown
+	srv := &http.Server{
+		Addr:    ":8080",
+		Handler: router,
 	}
+
+	go func() {
+		log.Println("Starting server on :8080")
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("Failed to start server: %v", err)
+		}
+	}()
+
+	// Wait for interrupt signal
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("Shutting down server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatalf("Server forced to shutdown: %v", err)
+	}
+
+	log.Println("Server exited gracefully")
 }
