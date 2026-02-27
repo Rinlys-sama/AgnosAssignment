@@ -1,4 +1,4 @@
-# Agnos Hospital Middleware
+# Hospital Middleware System
 
 A hospital middleware system built with Go/Gin that allows hospital staff to search patient records. Each staff member can only access patients from their own hospital.
 
@@ -54,7 +54,7 @@ curl http://localhost/patient/search?national_id=1234567890123 \
 ├── repository/          # Database queries
 ├── services/            # Business logic
 ├── handlers/            # HTTP request handlers
-├── middleware/           # JWT authentication
+├── middleware/          # JWT authentication
 ├── routes/              # Route definitions
 ├── migrations/          # SQL schema & seed data
 ├── nginx/               # Nginx config

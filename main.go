@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/agnos/hospital-middleware/config"
-	"github.com/agnos/hospital-middleware/routes"
+	"github.com/Rinlys-sama/AgnosAssignment/config"
+	"github.com/Rinlys-sama/AgnosAssignment/routes"
 )
 
 func main() {

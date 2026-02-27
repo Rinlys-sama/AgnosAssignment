@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	"github.com/agnos/hospital-middleware/models"
+	"github.com/Rinlys-sama/AgnosAssignment/models"
 )
 
 type StaffRepository struct {

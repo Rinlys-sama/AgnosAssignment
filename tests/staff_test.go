@@ -9,8 +9,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/agnos/hospital-middleware/config"
-	"github.com/agnos/hospital-middleware/routes"
+	"github.com/Rinlys-sama/AgnosAssignment/config"
+	"github.com/Rinlys-sama/AgnosAssignment/routes"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,4 +1,4 @@
-module github.com/agnos/hospital-middleware
+module github.com/Rinlys-sama/AgnosAssignment
 
 go 1.24.0
 

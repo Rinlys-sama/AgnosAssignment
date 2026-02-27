@@ -3,11 +3,11 @@ package routes
 import (
 	"database/sql"
 
-	"github.com/agnos/hospital-middleware/config"
-	"github.com/agnos/hospital-middleware/handlers"
-	"github.com/agnos/hospital-middleware/middleware"
-	"github.com/agnos/hospital-middleware/repository"
-	"github.com/agnos/hospital-middleware/services"
+	"github.com/Rinlys-sama/AgnosAssignment/config"
+	"github.com/Rinlys-sama/AgnosAssignment/handlers"
+	"github.com/Rinlys-sama/AgnosAssignment/middleware"
+	"github.com/Rinlys-sama/AgnosAssignment/repository"
+	"github.com/Rinlys-sama/AgnosAssignment/services"
 	"github.com/gin-gonic/gin"
 )
 

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/agnos/hospital-middleware/models"
+	"github.com/Rinlys-sama/AgnosAssignment/models"
 )
 
 type PatientRepository struct {

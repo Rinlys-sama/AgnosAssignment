@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/agnos/hospital-middleware/models"
-	"github.com/agnos/hospital-middleware/services"
+	"github.com/Rinlys-sama/AgnosAssignment/models"
+	"github.com/Rinlys-sama/AgnosAssignment/services"
 	"github.com/gin-gonic/gin"
 )
 

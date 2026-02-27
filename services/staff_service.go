@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	"github.com/agnos/hospital-middleware/config"
-	"github.com/agnos/hospital-middleware/models"
-	"github.com/agnos/hospital-middleware/repository"
+	"github.com/Rinlys-sama/AgnosAssignment/config"
+	"github.com/Rinlys-sama/AgnosAssignment/models"
+	"github.com/Rinlys-sama/AgnosAssignment/repository"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
