@@ -1,0 +1,32 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Go test binary
+*.test
+
+# Go coverage
+*.out
+*.cover
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node (leftover from PDF parsing)
+node_modules/
+
+# Docker
+postgres_data/

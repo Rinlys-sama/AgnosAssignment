@@ -1,0 +1,48 @@
+services:
+  # PostgreSQL database
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: agnos
+      POSTGRES_PASSWORD: agnos_secret
+      POSTGRES_DB: hospital_middleware
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agnos -d hospital_middleware"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Go API server
+  api:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: agnos
+      DB_PASSWORD: agnos_secret
+      DB_NAME: hospital_middleware
+      JWT_SECRET: agnos-jwt-secret-key-change-in-production
+      GIN_MODE: release
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
