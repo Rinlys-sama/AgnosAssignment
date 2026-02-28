@@ -54,7 +54,7 @@ curl http://localhost/patient/search?national_id=1234567890123 \
 ├── repository/          # Database queries
 ├── services/            # Business logic
 ├── handlers/            # HTTP request handlers
-├── middleware/          # JWT authentication
+├── middleware/          # JWT authentication for data security
 ├── routes/              # Route definitions
 ├── migrations/          # SQL schema & seed data
 ├── nginx/               # Nginx config
@@ -64,6 +64,7 @@ curl http://localhost/patient/search?national_id=1234567890123 \
 ```
 
 ## Running Tests
+Unit Test for all functions (Create,Login,Search) and cover all cases
 ```bash
 go test ./tests/... -v
 ```
