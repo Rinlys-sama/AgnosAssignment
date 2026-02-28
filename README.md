@@ -46,23 +46,6 @@ curl http://localhost/patient/search?national_id=1234567890123 \
 
 **Optional query parameters:** `national_id`, `passport_id`, `first_name`, `middle_name`, `last_name`, `date_of_birth`, `phone_number`, `email`
 
-## Project Structure
-```
-├── main.go              # App entry point
-├── config/              # Configuration & DB connection
-├── models/              # Data structures (Patient, Staff)
-├── repository/          # Database queries
-├── services/            # Business logic
-├── handlers/            # HTTP request handlers
-├── middleware/          # JWT authentication for data security
-├── routes/              # Route definitions
-├── migrations/          # SQL schema & seed data
-├── nginx/               # Nginx config
-├── Dockerfile           # Go app container
-├── docker-compose.yml   # Multi-container setup
-└── tests/               # Unit tests
-```
-
 ## Running Tests
 Unit Test for all functions (Create,Login,Search) and cover all cases
 ```bash
